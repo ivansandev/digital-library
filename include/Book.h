@@ -10,7 +10,7 @@
 
 using namespace std;
 
-class Book : public Item, Printable {
+class Book : public Item, private Printable {
 private:
     string genre;
 public:

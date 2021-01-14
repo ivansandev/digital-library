@@ -7,8 +7,6 @@ using std::string;
 #ifndef DIGITAL_LIBRARY_MEDIA_H
 #define DIGITAL_LIBRARY_MEDIA_H
 
-// enum MEDIA_TYPE{"Book", "Audiobook", "Magazine", "CD", "Audio-CD", "Tape", "Videotape"};
-
 class Item {
 private:
     string type;

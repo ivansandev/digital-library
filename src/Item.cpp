@@ -106,6 +106,8 @@ void Item::show() {
     else
         cout << "Unavailable." << endl;
     cout << "LANGUAGE: " << language << endl;
+    cout << "DOWNLOADS / RENTS: " << rentedCounter << endl;
+    cout << "STOCK: " << stockCounter << endl;
 }
 
 void Item::rentItem() {
@@ -129,6 +131,7 @@ bool Item::isItem(string criteria) {
 
     transform(lowerTitle.begin(), lowerTitle.end(), lowerTitle.begin(), ::tolower);
     transform(lowerAuthors.begin(), lowerAuthors.end(), lowerAuthors.begin(), ::tolower);
+    transform(criteria.begin(), criteria.end(), criteria.begin(), ::tolower);
 
     if (lowerTitle.find(criteria) != std::string::npos) {
         return true;

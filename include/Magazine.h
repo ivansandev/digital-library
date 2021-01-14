@@ -8,7 +8,7 @@
 #include "Item.h"
 #include "Printable.h"
 
-class Magazine : public Item, Printable {
+class Magazine : public Item, private Printable {
 private:
     string owner;
     string monthlySubscribers;

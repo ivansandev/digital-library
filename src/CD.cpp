@@ -32,7 +32,9 @@ CD::CD(const string &type, const string &title, const string &authors, const str
 
 
 void CD::saveToFile(ostream &dataFile) {
-    AudioCD::saveToFile(dataFile);
+    Item::saveToFile(dataFile);
+    dataFile << getAudioBitrate() << endl;
+    dataFile << getSizeInMb() << endl;
     dataFile << resolution << endl;
     dataFile << "$$" << endl;
 }
