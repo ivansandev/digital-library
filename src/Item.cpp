@@ -116,7 +116,7 @@ void Item::rentItem() {
         rentedCounter++;
         cout << "Item rented." << endl << "Current stock: " << stockCounter << endl;
     } else {
-        cout << "There is no stock of the selected item." << endl;
+        cout << "There is NO STOCK of the selected item." << endl;
     }
 }
 

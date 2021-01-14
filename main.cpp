@@ -133,17 +133,21 @@ void menu(vector<Item *> &items) {
             // +--------------+
             case 1: {
                 printShowMenu();
-                picker = -1;
-                cin >> picker;
-                while (picker < 0 || picker > 5) {
+                int picker2 = -1;
+                if (!cin) {
+                    cin.clear();
+                    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                }
+                cin >> picker2;
+                while (picker2 < 0 || picker2 > 5) {
                     cout << "Pick between option 0-5.\nChoice: ";
                     if (!cin) {
                         cin.clear();
                         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                     }
-                    cin >> picker;
+                    cin >> picker2;
                 }
-                switch (picker) {
+                switch (picker2) {
                     case 1: {
                         vector<Item *> foundItems = searchItems(items);
                         showAllDetailed(foundItems);
@@ -169,6 +173,7 @@ void menu(vector<Item *> &items) {
                         cout << "Wrong option." << endl;
                     }
                 }
+                break;
             }
                 // +-----------+
                 // | RENT ITEM |
@@ -180,7 +185,7 @@ void menu(vector<Item *> &items) {
                     cout << "No items found. Please change your search criteria." << endl;
                     break;
                 } else if (foundItems.size() == 1) {
-                    foundItems[0]--;
+                    (*foundItems[0])--;
                 } else {
                     cout << "More than one result found. Please be more specific." << endl;
                 }
@@ -197,7 +202,7 @@ void menu(vector<Item *> &items) {
                     cout << "No items found. Please change your search criteria." << endl;
                     break;
                 } else if (foundItems.size() == 1) {
-                    foundItems[0]++;
+                    (*foundItems[0])++;
                 } else {
                     cout << "More than one result found. Please be more specific." << endl;
                 }
@@ -379,9 +384,9 @@ void showAllDetailed(vector<Item *> &items) {
 
 void showAllCategory(vector<Item *> &items) {
     printCategories();
+    std::string category = categoryPickerToString();
     cout << endl << "RESULTS:" << endl;
     cout << "---------------------" << endl;
-    std::string category = categoryPickerToString();
     for (auto &item : items)
         if (item->getType() == category)
             cout << *item;
@@ -402,9 +407,9 @@ void showAllAvailable(vector<Item *> &items) {
 
 void showAllAvailableCategory(vector<Item *> &items) {
     printCategories();
+    std::string category = categoryPickerToString();
     cout << endl << "RESULTS:" << endl;
     cout << "---------------------" << endl;
-    std::string category = categoryPickerToString();
     for (auto &item : items)
         if ((item->getType() == category) && (item->isStock()))
             cout << *item;
