@@ -40,9 +40,6 @@ void showAllAvailableCategory(vector<Item *> &items);
 
 vector<Item *> searchItems(vector<Item *> &items);
 
-
-std::unique_ptr<Item> searchItem();
-
 int main() {
 
     std::vector<Item *> items;
@@ -61,20 +58,20 @@ void printStartMenu() {
     std::cout << "MENU:\n"
                  "1. Show item(s)\n"
                  "2. Rent item\n"
-                 "3. Return item"
-                 "4. Delete item\n"
-                 "5. Add item\n"
+                 "3. Return item\n"
+                 "4. Add item\n"
+                 "5. Delete item\n"
                  "0. Exit\n";
 }
 
 void printShowMenu() {
     std::cout << "SHOW\n"
-                 "1. Search item\n"
-                 "2. Show all items\n"
-                 "3. Show all items by category\n"
-                 "4. Show all items in-stock\n"
-                 "5. Show all items in stock by category\n"
-                 "0. Back\n"
+                 "\t1. Search item\n"
+                 "\t2. Show all items\n"
+                 "\t3. Show all items by category\n"
+                 "\t4. Show all items in-stock\n"
+                 "\t5. Show all items in stock by category\n"
+                 "\t0. Back\n"
                  "Choice: ";
 }
 
@@ -94,6 +91,10 @@ std::string categoryPickerToString() {
     cin >> picker;
     while (picker < 1 || picker > 7) {
         cout << "Pick between choice 1 and 7." << endl << "Choice: " << endl;
+        if (!cin) {
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
         cin >> picker;
     }
     switch (picker) {
@@ -170,9 +171,18 @@ void menu(vector<Item *> &items) {
                 // | RENT ITEM |
                 // +-----------+
             case 2: {
-                // TODO: Rent items
-                // 1. find item
-                // 2. item--
+                vector<Item*> foundItems;
+                foundItems = searchItems(items);
+                if (foundItems.empty()) {
+                    cout << "No items found. Please change your search criteria." << endl;
+                    break;
+                }
+                else if (foundItems.size() == 1) {
+                    foundItems[0]--;
+                }
+                else {
+                    cout << "More than one result found. Please be more specific." << endl;
+                }
                 writeToFile(items);
                 break;
             }
@@ -180,10 +190,24 @@ void menu(vector<Item *> &items) {
                 // | RETURN ITEM |
                 // +-------------+
             case 3: {
-                // TODO: Return items
+                vector<Item*> foundItems;
+                foundItems = searchItems(items);
+                if (foundItems.empty()) {
+                    cout << "No items found. Please change your search criteria." << endl;
+                    break;
+                }
+                else if (foundItems.size() == 1) {
+                    foundItems[0]++;
+                }
+                else {
+                    cout << "More than one result found. Please be more specific." << endl;
+                }
                 writeToFile(items);
                 break;
             }
+                // +----------+
+                // | ADD ITEM |
+                // +----------+
             case 4: {
                 std::cout << "What type of media do you like to add?" << std::endl;
                 newItemWizard(items);
@@ -194,7 +218,25 @@ void menu(vector<Item *> &items) {
                 // | DELETE ITEM |
                 // +-------------+
             case 5: {
-                // TODO: Ability to delete item
+                vector<Item*> foundItems;
+                foundItems = searchItems(items);
+                if (foundItems.empty()) {
+                    cout << "No items found. Please change your search criteria." << endl;
+                    break;
+                }
+                else if (foundItems.size() == 1) {
+                    for (auto it = items.begin(); it != items.end(); ++it) {
+                        if ((*it)->getTitle() == foundItems[0]->getTitle()
+                                && (*it)->getAuthors() == foundItems[0]->getAuthors()) {
+                            items.erase(it);
+                            break;
+                        }
+                    }
+                        foundItems[0];
+                }
+                else {
+                    cout << "More than one result found. Please be more specific." << endl;
+                }
                 break;
             }
                 // +------------+
@@ -375,6 +417,19 @@ void showAllAvailableCategory(vector<Item *> &items) {
     cout << "---------------------" << endl << endl;
 }
 
+vector<Item *> searchItems(vector<Item *> &items) {
+    string criteria;
+    cout << "Search: ";
+    cin >> criteria;
+    vector<Item *> foundItems;
+    for (auto &item : items) {
+        if (item->isItem(criteria)) {
+            foundItems.push_back(item);
+        }
+    }
+    return foundItems;
+}
+
 void freeItems(vector<Item *> &items) {
     for (auto &item : items) {
         if (item->getType() == "book")
@@ -392,17 +447,4 @@ void freeItems(vector<Item *> &items) {
         if (item->getType() == "videotape")
             delete ((Videotape *) item);
     }
-}
-
-vector<Item *> searchItems(vector<Item *> &items) {
-    string criteria;
-    cout << "Search: ";
-    cin >> criteria;
-    vector<Item *> foundItems;
-    for (auto &item : items) {
-        if (item->isItem(criteria)) {
-            foundItems.push_back(item);
-        }
-    }
-    return foundItems;
 }

@@ -21,6 +21,10 @@ public:
         cin >> audioBitrate;
         while (cin.fail()) {
             cout << "Audio bitrate should be a whole number.\nAudio bitrate: ";
+            if (!cin) {
+                cin.clear();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            }
             cin >> audioBitrate;
         }
 
@@ -28,6 +32,10 @@ public:
         cin >> sizeInMB;
         while (cin.fail()) {
             cout << "Size should be a whole number (without MB).\nSize (MB): ";
+            if (!cin) {
+                cin.clear();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            }
             cin >> sizeInMB;
         }
     }

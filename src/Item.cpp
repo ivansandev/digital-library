@@ -21,6 +21,10 @@ Item::Item() {
     getline(cin, title);
     while (title.length() == 0) {
         cout << "No title given. Please enter a title.\nTitle: ";
+        if (!cin) {
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
         getline(cin, title);
     }
 
@@ -28,6 +32,10 @@ Item::Item() {
     getline(cin, authors);
     while (authors.length() == 0) {
         cout << "No authors given. Please enter authors.\nAuthors: ";
+        if (!cin) {
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
         getline(cin, authors);
     }
 
@@ -42,6 +50,10 @@ Item::Item() {
     cin >> releaseYear;
     while (releaseYear < 1000 || releaseYear > 2100 || cin.fail()) {
         cout << "Incorrect release year entered. Please enter a correct year\nRelease year: ";
+        if (!cin) {
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
         cin >> releaseYear;
     }
 
@@ -49,6 +61,10 @@ Item::Item() {
     cin >> stockCounter;
     while (stockCounter < 0) {
         cout << "Incorrect stock number entered. Stock should be 0 or above.\nStock: ";
+        if (!cin) {
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
         cin >> stockCounter;
     }
     cin.ignore();
@@ -60,6 +76,10 @@ void Item::changeStock() {
     cin >> stockCounter;
     while (stockCounter < 0) {
         cout << "Stock number should be 0 or above 0. Try again..." << endl;
+        if (!cin) {
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
         cin >> stockCounter;
     }
 }
@@ -92,7 +112,7 @@ void Item::rentItem() {
     if (stockCounter > 0) {
         stockCounter--;
         rentedCounter++;
-        cout << "Item rented." << endl << "Current stock: " << stockCounter;
+        cout << "Item rented." << endl << "Current stock: " << stockCounter << endl;
     } else {
         cout << "There is no stock of the selected item." << endl;
     }
@@ -100,6 +120,7 @@ void Item::rentItem() {
 
 void Item::returnItem() {
     stockCounter++;
+    cout << "Item returned." << endl << "Current stock: " << stockCounter << endl;
 }
 
 bool Item::isItem(string criteria) {

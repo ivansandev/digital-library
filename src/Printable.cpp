@@ -62,6 +62,7 @@ Printable::Printable() {
     }
 
     cout << "Publisher: ";
+    cin.ignore();
     getline(cin, publisher);
     if (publisher.length() == 0) {
         cout << "No publisher given. Defaulting to 'none'" << endl;
