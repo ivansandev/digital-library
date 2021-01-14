@@ -30,9 +30,9 @@ void Audiobook::setWpm(int wpm) {
 
 void Audiobook::show() {
     Item::show();
-    cout << "Genre: " << genre << endl;
-    cout << "Bitrate: " << audioBitrate << endl;
-    cout << "Words per minute: " << wpm << endl;
+    cout << "GENRE: " << genre << endl;
+    cout << "BITRATE: " << audioBitrate << endl;
+    cout << "WORDS PER MINUTE: " << wpm << endl;
 }
 
 Audiobook::Audiobook(const string &type, const string &title, const string &authors, const string &language,

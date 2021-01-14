@@ -6,7 +6,7 @@
 
 void CD::show() {
     AudioCD::show();
-    cout << "Resolution: " << resolution << endl;
+    cout << "RESOLUTION: " << resolution << endl;
 }
 
 const string &CD::getResolution() const {

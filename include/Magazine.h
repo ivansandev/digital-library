@@ -13,7 +13,7 @@ private:
     string owner;
     string monthlySubscribers;
 public:
-    Magazine() : Item()
+    Magazine() : Item(), Printable()
     {
         setType("magazine");
 
@@ -22,20 +22,12 @@ public:
 
         cout << "Subscribers: ";
         getline(cin, monthlySubscribers);
-
-        cout << "Edition: ";
-        cin >> edition;
-
-        cout << "Pages: ";
-        cin >> pages;
-
-        cout << "Publisher: ";
-        cin.ignore();
-        getline(cin, publisher);
     }
 
     Magazine(const string &type, const string &title, const string &authors, const string &language, int releaseYear,
-             int stockCounter, int rentedCounter, const string &owner, const string &monthlySubscribers);
+             int stockCounter, int rentedCounter, int edition, int pages, const string &publisher, const string &owner,
+             const string &monthlySubscribers);
+
 
     // GETTERS / SETTERS
     const string &getOwner() const;

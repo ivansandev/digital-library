@@ -34,3 +34,37 @@ void Printable::show() {
     cout << "PAGES: " << pages << endl;
     cout << "PUBLISHER: " << publisher << endl;
 }
+
+Printable::Printable(int edition, int pages, const string &publisher)
+            : edition(edition), pages(pages), publisher(publisher) {}
+
+Printable::Printable() {
+    cout << "Edition: ";
+    cin >> edition;
+    while (cin.fail()) {
+        cout << "Edition should be a number only.\nEdition: ";
+        if (!cin) {
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+        cin >> edition;
+    }
+
+    cout << "Pages: ";
+    cin >> pages;
+    while (cin.fail()) {
+        cout << "Pages should be a number.\nPages: ";
+        if (!cin) {
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+        cin >> pages;
+    }
+
+    cout << "Publisher: ";
+    getline(cin, publisher);
+    if (publisher.length() == 0) {
+        cout << "No publisher given. Defaulting to 'none'" << endl;
+        publisher = "none";
+    }
+}

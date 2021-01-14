@@ -48,7 +48,7 @@ int main() {
     std::vector<Item *> items;
 
 //    TODO : Load data from file
-//    readFromFile(&items);
+    readFromFile(items);
 
     menu(items);
 
@@ -61,8 +61,9 @@ void printStartMenu() {
     std::cout << "MENU:\n"
                  "1. Show item(s)\n"
                  "2. Rent item\n"
-                 "3. Edit item\n"
-                 "4. Add item\n"
+                 "3. Return item"
+                 "4. Delete item\n"
+                 "5. Add item\n"
                  "0. Exit\n";
 }
 
@@ -117,15 +118,14 @@ std::string categoryPickerToString() {
 
 void menu(vector<Item *> &items) {
     while (true) {
-        writeToFile(items);
         printStartMenu();
         cout << "Choice: ";
         short picker = -1;
         cin >> picker;
         switch (picker) {
-            // --------------
-            // SHOW ITEM(s) |
-            // --------------
+            // +--------------+
+            // | SHOW ITEM(s) |
+            // +--------------+
             case 1: {
                 printShowMenu();
                 picker = -1;
@@ -166,31 +166,40 @@ void menu(vector<Item *> &items) {
                 }
                 break;
             }
-                // --------------
-                // RENT ITEM(s) |
-                // --------------
+                // +-----------+
+                // | RENT ITEM |
+                // +-----------+
             case 2: {
-                // TODO:
+                // TODO: Rent items
                 // 1. find item
-                // 2. item++
+                // 2. item--
+                writeToFile(items);
                 break;
             }
+                // +-------------+
+                // | RETURN ITEM |
+                // +-------------+
             case 3: {
+                // TODO: Return items
+                writeToFile(items);
                 break;
             }
             case 4: {
                 std::cout << "What type of media do you like to add?" << std::endl;
                 newItemWizard(items);
+                writeToFile(items);
                 break;
             }
+                // +-------------+
+                // | DELETE ITEM |
+                // +-------------+
             case 5: {
-                showAll(items);
+                // TODO: Ability to delete item
                 break;
             }
-            case 6: {
-
-                break;
-            }
+                // +------------+
+                // |  ADD ITEM  |
+                // +------------+
             case 0: {
                 return;
             }
@@ -240,20 +249,71 @@ void newItemWizard(vector<Item *> &items) {
 }
 
 void readFromFile(vector<Item *> &items) {
+    ifstream dataFile("data.txt");
+    vector<string> lines;
+    string line;
+    if (dataFile.is_open()) {
+        while (getline(dataFile, line)) {
+            if (line != "$$") {
+                lines.push_back(line);
+            } else {
+                // TODO: Insert new object into items;
+                string type = lines[0];
+                string title = lines[1];
+                string authors = lines[2];
+                string language = lines[3];
+                int releaseYear = stoi(lines[4]);
+                int stockCounter = stoi(lines[5]);
+                int rentedCounter = stoi(lines[6]);
+                if (type == "audiobook")
+                    items.push_back(
+                            new Audiobook(type, title, authors, language, releaseYear, stockCounter, rentedCounter,
+                                          lines[7], stoi(lines[8]), stoi(lines[9])));
+                if (type == "audiocd")
+                    items.push_back(
+                            new Audiobook(type, title, authors, language, releaseYear, stockCounter, rentedCounter,
+                                          lines[7], stoi(lines[8]), stoi(lines[9])));
+                if (type == "book")
+                    items.push_back(
+                            new Book(type, title, authors, language, releaseYear, stockCounter, rentedCounter,
+                                     stoi(lines[7]), stoi(lines[8]), lines[9], lines[10]));
+                if (type == "cd")
+                    items.push_back(
+                            new Audiobook(type, title, authors, language, releaseYear, stockCounter, rentedCounter,
+                                          lines[7], stoi(lines[8]), stoi(lines[9])));
+                if (type == "magazine")
+                    items.push_back(
+                            new Magazine(type, title, authors, language, releaseYear, stockCounter, rentedCounter,
+                                         stoi(lines[7]), stoi(lines[8]), lines[9],
+                                         lines[10], lines[11]));
+                if (type == "tape")
+                    items.push_back(
+                            new Tape(type, title, authors, language, releaseYear, stockCounter, rentedCounter,
+                                     stoi(lines[7])));
 
+                if (type == "videotape")
+                    items.push_back(
+                            new Videotape(type, title, authors, language, releaseYear, stockCounter, rentedCounter,
+                                          stoi(lines[7]), "1"==lines[8]));
+
+                lines.clear();
+
+            }
+        }
+    } else {
+        cout << "Cannot open file for reading. Exiting..." << endl;
+    }
 }
 
 void writeToFile(vector<Item *> &items) {
     ofstream dataFile("data.txt");
-    if (dataFile.is_open())
-    {
-        for(auto& item : items) {
+    if (dataFile.is_open()) {
+        for (auto &item : items) {
             item->saveToFile(dataFile);
         }
         dataFile.close();
-    }
-    else {
-        cout << "Cannot open file" << endl;
+    } else {
+        cout << "Cannot open file for writing. Exiting..." << endl;
     }
 }
 

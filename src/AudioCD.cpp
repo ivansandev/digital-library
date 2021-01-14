@@ -6,8 +6,8 @@
 
 void AudioCD::show() {
     Item::show();
-    cout << "Bitrate: " << audioBitrate << endl;
-    cout << "Size (MB): " << sizeInMB << endl;
+    cout << "BITRATE: " << audioBitrate << endl;
+    cout << "SIZE (MB): " << sizeInMB << endl;
 }
 
 int AudioCD::getAudioBitrate() const {

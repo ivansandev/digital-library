@@ -6,7 +6,7 @@
 
 void Tape::show() {
     Item::show();
-    cout << "Capacity (in minutes): " << capacityMinutes;
+    cout << "CAPACITY (in minutes): " << capacityMinutes << endl;
 }
 
 int Tape::getCapacityMinutes() const {
@@ -18,10 +18,9 @@ void Tape::setCapacityMinutes(int capacityMinutes) {
 }
 
 Tape::Tape(const string &type, const string &title, const string &authors, const string &language, int releaseYear,
-           int stockCounter, int rentedCounter, int capacityMinutes) : Item(type, title, authors, language, releaseYear,
-                                                                            stockCounter, rentedCounter),
-                                                                       capacityMinutes(capacityMinutes) {}
-
+           int stockCounter, int rentedCounter, int capacityMinutes)
+           : Item(type, title, authors, language, releaseYear, stockCounter, rentedCounter),
+           capacityMinutes(capacityMinutes) {}
 
 void Tape::saveToFile(ostream &dataFile) {
     Item::saveToFile(dataFile);

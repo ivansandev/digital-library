@@ -23,6 +23,7 @@ public:
     Tape(const string &type, const string &title, const string &authors, const string &language, int releaseYear,
          int stockCounter, int rentedCounter, int capacityMinutes);
 
+
     virtual void show();
 
     // GETTERS / SETTERS

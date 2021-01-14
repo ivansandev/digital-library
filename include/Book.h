@@ -14,31 +14,9 @@ class Book : public Item, Printable {
 private:
     string genre;
 public:
-    Book() : Item()
+    Book() : Item(), Printable()
     {
         setType("book");
-
-        cout << "Edition: ";
-        cin >> edition;
-        while (cin.fail()) {
-            cout << "Edition should be a number only.\nEdition: ";
-            if (!cin) {
-                cin.clear();
-                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            }
-            cin >> edition;
-        }
-
-        cout << "Pages: ";
-        cin >> pages;
-        while (cin.fail()) {
-            cout << "Pages should be a number.\nPages: ";
-            if (!cin) {
-                cin.clear();
-                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            }
-            cin >> pages;
-        }
 
         cout << "Genre: ";
         cin.ignore();
@@ -47,14 +25,10 @@ public:
             cout << "No genre given. Defaulting to 'non-fiction'" << endl;
             genre = "Non-fiction";
         }
-
-        cout << "Publisher: ";
-        getline(cin, publisher);
-        if (publisher.length() == 0) {
-            cout << "No publisher given. Defaulting to 'none'" << endl;
-            genre = "none";
-        }
     }
+
+    Book(const string &type, const string &title, const string &authors, const string &language, int releaseYear,
+         int stockCounter, int rentedCounter, int edition, int pages, const string &publisher, const string &genre);
 
 
     void show();

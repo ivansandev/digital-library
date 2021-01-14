@@ -4,8 +4,7 @@
 
 #include "../include/Videotape.h"
 
-void Videotape::show()
-{
+void Videotape::show() {
     Tape::show();
     if (isVHS)
         cout << "VHS: yes" << endl;
@@ -22,18 +21,13 @@ void Videotape::setIsVhs(bool isVhs) {
 }
 
 Videotape::Videotape(const string &type, const string &title, const string &authors, const string &language,
-                     int releaseYear, int stockCounter, int rentedCounter, int capacityMinutes, bool isVhs) : Tape(type,
-                                                                                                                   title,
-                                                                                                                   authors,
-                                                                                                                   language,
-                                                                                                                   releaseYear,
-                                                                                                                   stockCounter,
-                                                                                                                   rentedCounter,
-                                                                                                                   capacityMinutes),
-                                                                                                              isVHS(isVhs) {}
+                     int releaseYear, int stockCounter, int rentedCounter, int capacityMinutes, bool isVhs)
+        : Tape(type, title, authors, language, releaseYear, stockCounter, rentedCounter, capacityMinutes),
+          isVHS(isVhs) {}
 
 void Videotape::saveToFile(ostream &dataFile) {
-    Tape::saveToFile(dataFile);
+    Item::saveToFile(dataFile);
+    dataFile << getCapacityMinutes() << endl;
     dataFile << isVHS << endl;
     dataFile << "$$" << endl;
 }

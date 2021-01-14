@@ -9,10 +9,13 @@ using namespace std;
 
 class Printable {
 private:
-    int edition;
-    int pages;
+    int edition{};
+    int pages{};
     string publisher;
 public:
+    Printable();
+    Printable(int edition, int pages, const string &publisher);
+
     int getEdition() const;
     void setEdition(int edition);
     int getPages() const;

@@ -32,17 +32,18 @@ void Magazine::show() {
 }
 
 Magazine::Magazine(const string &type, const string &title, const string &authors, const string &language,
-                   int releaseYear, int stockCounter, int rentedCounter, const string &owner,
-                   const string &monthlySubscribers) : Item(type, title, authors, language, releaseYear, stockCounter,
-                                                            rentedCounter), owner(owner),
-                                                       monthlySubscribers(monthlySubscribers) {}
+                   int releaseYear, int stockCounter, int rentedCounter, int edition, int pages,
+                   const string &publisher, const string &owner, const string &monthlySubscribers)
+                    : Item(type, title, authors, language, releaseYear, stockCounter, rentedCounter),
+                      Printable(edition, pages, publisher),
+                      owner(owner),monthlySubscribers(monthlySubscribers) {}
 
 void Magazine::saveToFile(ostream &dataFile) {
     Item::saveToFile(dataFile);
-    dataFile << owner << endl;
-    dataFile << monthlySubscribers << endl;
     dataFile << edition << endl;
     dataFile << pages << endl;
     dataFile << publisher << endl;
+    dataFile << owner << endl;
+    dataFile << monthlySubscribers << endl;
     dataFile << "$$" << endl;
 }
