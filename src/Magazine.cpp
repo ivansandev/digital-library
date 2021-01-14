@@ -26,7 +26,23 @@ void Magazine::setMonthlySubscribers(const string &monthlySubscribers) {
 
 void Magazine::show() {
     Item::show();
-    cout << "Owner: " << owner << endl;
-    cout << "Subscribers: " << monthlySubscribers << endl;
+    cout << "OWNER: " << owner << endl;
+    cout << "SUBSCRIBERS: " << monthlySubscribers << endl;
     Printable::show();
+}
+
+Magazine::Magazine(const string &type, const string &title, const string &authors, const string &language,
+                   int releaseYear, int stockCounter, int rentedCounter, const string &owner,
+                   const string &monthlySubscribers) : Item(type, title, authors, language, releaseYear, stockCounter,
+                                                            rentedCounter), owner(owner),
+                                                       monthlySubscribers(monthlySubscribers) {}
+
+void Magazine::saveToFile(ostream &dataFile) {
+    Item::saveToFile(dataFile);
+    dataFile << owner << endl;
+    dataFile << monthlySubscribers << endl;
+    dataFile << edition << endl;
+    dataFile << pages << endl;
+    dataFile << publisher << endl;
+    dataFile << "$$" << endl;
 }

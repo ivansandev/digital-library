@@ -25,3 +25,23 @@ float AudioCD::getSizeInMb() const {
 void AudioCD::setSizeInMb(float sizeInMb) {
     sizeInMB = sizeInMb;
 }
+
+AudioCD::AudioCD(const string &type, const string &title, const string &authors, const string &language,
+                 int releaseYear, int stockCounter, int rentedCounter, int audioBitrate, float sizeInMb) : Item(type,
+                                                                                                                title,
+                                                                                                                authors,
+                                                                                                                language,
+                                                                                                                releaseYear,
+                                                                                                                stockCounter,
+                                                                                                                rentedCounter),
+                                                                                                           audioBitrate(
+                                                                                                                   audioBitrate),
+                                                                                                           sizeInMB(
+                                                                                                                   sizeInMb) {}
+
+void AudioCD::saveToFile(ostream &dataFile) {
+    Item::saveToFile(dataFile);
+    dataFile << audioBitrate << endl;
+    dataFile << sizeInMB << endl;
+    dataFile << "$$" << endl;
+}

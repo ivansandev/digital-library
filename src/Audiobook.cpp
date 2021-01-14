@@ -35,3 +35,16 @@ void Audiobook::show() {
     cout << "Words per minute: " << wpm << endl;
 }
 
+Audiobook::Audiobook(const string &type, const string &title, const string &authors, const string &language,
+                     int releaseYear, int stockCounter, int rentedCounter, const string &genre, int audioBitrate,
+                     int wpm) : Item(type, title, authors, language, releaseYear, stockCounter, rentedCounter),
+                                genre(genre), audioBitrate(audioBitrate), wpm(wpm) {}
+
+void Audiobook::saveToFile(ostream &dataFile) {
+    Item::saveToFile(dataFile);
+    dataFile << genre << endl;
+    dataFile << audioBitrate << endl;
+    dataFile << wpm << endl;
+    dataFile << "$$" << endl;
+}
+

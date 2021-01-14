@@ -14,15 +14,23 @@ private:
 public:
     CD() : AudioCD()
     {
+        setType("cd");
+
         cout << "Resolution: ";
-        cin >> resolution;
+        cin.ignore();
+        getline(cin, resolution);
     }
+
+    CD(const string &type, const string &title, const string &authors, const string &language, int releaseYear,
+       int stockCounter, int rentedCounter, int audioBitrate, float sizeInMb, const string &resolution);
 
     void show();
 
     // GETTERS / SETTERS
     const string &getResolution() const;
     void setResolution(const string &resolution);
+
+    void saveToFile(ostream &dataFile);
 };
 
 

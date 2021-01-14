@@ -5,24 +5,72 @@ using std::cin;
 using std::endl;
 using std::string;
 
-//Item * Item::link(Item *item) {
-//    item->next = this;
-//    next = item;
-//    return item;
-//}
+Item::Item() {
+    rentedCounter = 0;
+    string new_title;
+    string new_authors;
+    string new_category;
+    string new_language;
+    int new_releaseYear;
+    int new_stock;
+
+    // TODO: Input data validation
+    cin.ignore();
+
+    cout << "Title: ";
+    getline(cin, title);
+    while (title.length() == 0) {
+        cout << "No title given. Please enter a title.\nTitle: ";
+        getline(cin, title);
+    }
+
+    cout << "Authors: ";
+    getline(cin, authors);
+    while (authors.length() == 0) {
+        cout << "No authors given. Please enter authors.\nAuthors: ";
+        getline(cin, authors);
+    }
+
+    cout << "Language: ";
+    getline(cin, language);
+    if (language.length() == 0) {
+        cout << "No language set. Language defaulted for 'English'" << endl;
+        language = "English";
+    }
+
+    cout << "Release year: ";
+    cin >> releaseYear;
+    while (releaseYear < 1000 || releaseYear > 2100 || cin.fail()) {
+        cout << "Incorrect release year entered. Please enter a correct year\nRelease year: ";
+        cin >> releaseYear;
+    }
+
+    cout << "Stock: ";
+    cin >> stockCounter;
+    while (stockCounter < 0) {
+        cout << "Incorrect stock number entered. Stock should be 0 or above.\nStock: ";
+        cin >> stockCounter;
+    }
+    cin.ignore();
+}
 
 void Item::changeStock() {
     show();
     cout << "New stock: ";
     cin >> stockCounter;
-    while (stockCounter < 0)
-    {
+    while (stockCounter < 0) {
         cout << "Stock number should be 0 or above 0. Try again..." << endl;
         cin >> stockCounter;
     }
 }
 
-bool Item::checkAvailability() const {
+std::string Item::getAvailability() const {
+    if (isStock())
+        return "available";
+    return "unavailable";
+}
+
+bool Item::isStock() const {
     if (stockCounter > 0)
         return true;
     return false;
@@ -31,7 +79,6 @@ bool Item::checkAvailability() const {
 void Item::show() {
     cout << "TITLE: " << title << endl;
     cout << "AUTHOR: " << authors << endl;
-    cout << "CATEGORY: " << category << endl;
     cout << "YEAR: " << releaseYear << endl;
     cout << "STATUS: ";
     if (stockCounter > 0)
@@ -52,19 +99,23 @@ void Item::rentItem() {
 }
 
 void Item::returnItem() {
-    cout << "Please rate this item (from 1 to 5, 0 for dismissing)." << endl;
-    int newRating = 0;
-    cin >> newRating;
-    if (newRating != 0)
-    {
-        while(newRating < 1 || newRating > 5)
-        {
-            cout << "Invalid rating. Please input rating from 1 to 5, or 0 for dismissing." << endl;
-            cin >> newRating;
-        }
-        rating[newRating]++;
-    }
     stockCounter++;
+}
+
+bool Item::isItem(string criteria) {
+    std::string lowerTitle = title;
+    std::string lowerAuthors = authors;
+
+    transform(lowerTitle.begin(), lowerTitle.end(), lowerTitle.begin(), ::tolower);
+    transform(lowerAuthors.begin(), lowerAuthors.end(), lowerAuthors.begin(), ::tolower);
+
+    if (lowerTitle.find(criteria) != std::string::npos) {
+        return true;
+    }
+    if (lowerAuthors.find(criteria) != std::string::npos) {
+        return true;
+    }
+    return false;
 }
 
 Item Item::operator--(int notused) {
@@ -77,52 +128,29 @@ Item Item::operator++(int notused) {
     return *this;
 }
 
-Item::Item() {
-    string new_title;
-    string new_authors;
-    string new_category;
-    string new_language;
-    int new_releaseYear;
-    int new_stock;
-
-    // TODO: Input data validation
-    cout << "Title: ";
-    getline(cin, new_title);
-    title = new_title;
-
-    cout << "Authors: ";
-    getline(cin, new_authors);
-    authors = new_authors;
-
-    cout << "Category: ";
-    getline(cin, new_category);
-    category = new_category;
-
-    cout << "Language: ";
-    getline(cin, new_language);
-    language = new_language;
-
-    cout << "Release year: ";
-    cin >> new_releaseYear;
-    releaseYear = new_releaseYear;
-
-    cout << "Stock: ";
-    cin >> new_stock;
-    stockCounter = new_stock;
+void Item::saveToFile(std::ostream& dataFile) {
+    dataFile << type << endl;
+    dataFile << title << endl;
+    dataFile << authors << endl;
+    dataFile << language << endl;
+    dataFile << releaseYear << endl;
+    dataFile << stockCounter << endl;
+    dataFile << rentedCounter << endl;
 }
 
-string Item::formatDataForFile() {
-    // TODO : Format data for file depending on item type
-    return "";
+std::ostream &operator<<(std::ostream &os, const Item &item) {
+    os << item.type << "  >  " << item.title << ", " << item.authors << ", " << item.releaseYear << ", "
+       << item.getAvailability() << endl;
+    return os;
 }
 
 // GETTERS / SETTERS
-const string &Item::getMediaType() const {
-    return mediaType;
+const string &Item::getType() const {
+    return type;
 }
 
-void Item::setMediaType(const string &mediaType) {
-    Item::mediaType = mediaType;
+void Item::setType(const string &type) {
+    Item::type = type;
 }
 
 const string &Item::getTitle() const {
@@ -139,14 +167,6 @@ const string &Item::getAuthors() const {
 
 void Item::setAuthors(const string &authors) {
     Item::authors = authors;
-}
-
-const string &Item::getCategory() const {
-    return category;
-}
-
-void Item::setCategory(const string &category) {
-    Item::category = category;
 }
 
 const string &Item::getLanguage() const {
@@ -180,5 +200,10 @@ int Item::getRentedCounter() const {
 void Item::setRentedCounter(int rentedCounter) {
     Item::rentedCounter = rentedCounter;
 }
+
+Item::Item(const string &type, const string &title, const string &authors, const string &language, int releaseYear,
+           int stockCounter, int rentedCounter) : type(type), title(title), authors(authors), language(language),
+                                                  releaseYear(releaseYear), stockCounter(stockCounter),
+                                                  rentedCounter(rentedCounter) {}
 
 

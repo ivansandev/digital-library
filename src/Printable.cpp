@@ -20,13 +20,6 @@ void Printable::setPages(int pages) {
     Printable::pages = pages;
 }
 
-int Printable::getFontSize() const {
-    return fontSize;
-}
-
-void Printable::setFontSize(int fontSize) {
-    Printable::fontSize = fontSize;
-}
 
 const string &Printable::getPublisher() const {
     return publisher;
@@ -37,8 +30,7 @@ void Printable::setPublisher(const string &publisher) {
 }
 
 void Printable::show() {
-    cout << "Edition: " << edition << endl;
-    cout << "Pages: " << pages << endl;
-    cout << "Font size: " << fontSize << endl;
-    cout << "Publisher: " << publisher << endl;
+    cout << "EDITION: " << edition << endl;
+    cout << "PAGES: " << pages << endl;
+    cout << "PUBLISHER: " << publisher << endl;
 }

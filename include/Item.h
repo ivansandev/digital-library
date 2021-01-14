@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-
+#include <fstream>
 using std::string;
 
 #ifndef DIGITAL_LIBRARY_MEDIA_H
@@ -11,40 +11,38 @@ using std::string;
 
 class Item {
 private:
-    string mediaType;
+    string type;
     string title;
     string authors;
-    string category;
     string language;
     int releaseYear;
     int stockCounter;
     int rentedCounter;
-    int rating[5] = {0};
-    // Item *next;
 public:
     Item();
 
+    Item(const string &type, const string &title, const string &authors, const string &language, int releaseYear,
+         int stockCounter, int rentedCounter);
     // Constructor with all parameters (used for reading from file)
 
     virtual void show();
     void changeStock();
-    bool checkAvailability() const;
+    std::string getAvailability() const;
     void rentItem();
     void returnItem();
     Item operator--(int notused);
     Item operator++(int notused);
-
-    virtual string formatDataForFile();
+    friend std::ostream &operator<<(std::ostream &os, const Item &item);
+    bool isItem(string criteria);
+    virtual void saveToFile(std::ostream &dataFile);
 
     // GETTERS / SETTERS
-    const string &getMediaType() const;
-    void setMediaType(const string &mediaType);
+    const string &getType() const;
+    void setType(const string &type);
     const string &getTitle() const;
     void setTitle(const string &title);
     const string &getAuthors() const;
     void setAuthors(const string &authors);
-    const string &getCategory() const;
-    void setCategory(const string &category);
     const string &getLanguage() const;
     void setLanguage(const string &language);
     int getReleaseYear() const;
@@ -55,6 +53,8 @@ public:
     void setRentedCounter(int rentedCounter);
 
     // TODO: Overload << operator
+    bool isStock() const;
+
 };
 
 

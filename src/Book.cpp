@@ -17,3 +17,12 @@ void Book::show() {
     cout << "Genre: " << genre << endl;
     Printable::show();
 }
+
+void Book::saveToFile(ostream &dataFile) {
+    Item::saveToFile(dataFile);
+    dataFile << edition << endl;
+    dataFile << pages << endl;
+    dataFile << genre << endl;
+    dataFile << publisher << endl;
+    dataFile << "$$" << endl;
+}

@@ -15,12 +15,25 @@ private:
 public:
     AudioCD() : Item()
     {
+        setType("audiocd");
+
         cout << "Audio bitrate: ";
         cin >> audioBitrate;
+        while (cin.fail()) {
+            cout << "Audio bitrate should be a whole number.\nAudio bitrate: ";
+            cin >> audioBitrate;
+        }
 
         cout << "Size (MB): ";
         cin >> sizeInMB;
+        while (cin.fail()) {
+            cout << "Size should be a whole number (without MB).\nSize (MB): ";
+            cin >> sizeInMB;
+        }
     }
+
+    AudioCD(const string &type, const string &title, const string &authors, const string &language, int releaseYear,
+            int stockCounter, int rentedCounter, int audioBitrate, float sizeInMb);
 
     // GETTERS / SETTERS
     int getAudioBitrate() const;
@@ -29,6 +42,8 @@ public:
     void setSizeInMb(float sizeInMb);
 
     virtual void show();
+
+    void saveToFile(ostream &dataFile);
 };
 
 

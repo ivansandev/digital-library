@@ -14,15 +14,22 @@ private:
 public:
     Tape() : Item()
     {
+        setType("tape");
+
         cout << "Capacity (in minutes): ";
         cin >> capacityMinutes;
     }
+
+    Tape(const string &type, const string &title, const string &authors, const string &language, int releaseYear,
+         int stockCounter, int rentedCounter, int capacityMinutes);
 
     virtual void show();
 
     // GETTERS / SETTERS
     int getCapacityMinutes() const;
     void setCapacityMinutes(int capacityMinutes);
+
+    void saveToFile(ostream &dataFile);
 };
 
 

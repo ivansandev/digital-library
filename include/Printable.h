@@ -11,15 +11,12 @@ class Printable {
 private:
     int edition;
     int pages;
-    int fontSize;
     string publisher;
 public:
     int getEdition() const;
     void setEdition(int edition);
     int getPages() const;
     void setPages(int pages);
-    int getFontSize() const;
-    void setFontSize(int fontSize);
     const string &getPublisher() const;
     void setPublisher(const string &publisher);
     virtual void show();
